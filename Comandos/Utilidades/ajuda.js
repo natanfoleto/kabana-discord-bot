@@ -1,12 +1,11 @@
 const { StringSelectMenuBuilder } = require('@discordjs/builders')
-const { SelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js')
+const { ActionRowBuilder, EmbedBuilder } = require('discord.js')
 const fs = require('fs')
 
 module.exports = {
     name: 'ajuda',
     description: 'Lista de comandos do servidor.',
     run: async (client, interaction) => {
-
         const optionsArr = []
 
         const commandsFolder = fs.readdirSync('./Comandos')

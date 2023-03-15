@@ -32,7 +32,7 @@ module.exports = {
 
       let button = new Discord.ActionRowBuilder().addComponents(
         new Discord.ButtonBuilder()
-          .setCustomId("modalcla")
+          .setCustomId("clanModal")
           .setLabel("Confirmar Clan")
           .setStyle(Discord.ButtonStyle.Secondary)
       );

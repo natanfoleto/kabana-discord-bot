@@ -6,6 +6,20 @@ module.exports = {
   type: Discord.ApplicationCommandType.ChatInput,
 
   run: async (client, interaction) => {
+    const memberRole = "1068720047687737443"
+
+    if (interaction.member.roles.highest.id === memberRole) {
+      const embedAlreadyExists = new Discord.EmbedBuilder()
+        .setDescription(`Você já foi verificado com o cargo <@&${memberRole}>`)
+        .setColor("Red")
+
+      await interaction.reply({ embeds: [embedAlreadyExists], ephemeral: true }).then((reply) => {
+        setTimeout(() => { reply.delete() }, 5000)
+      })
+
+      return
+    }
+
     const btn = new Discord.ActionRowBuilder()
       .addComponents(
         new Discord.ButtonBuilder()
@@ -27,31 +41,20 @@ module.exports = {
       .setThumbnail(client.user.displayAvatarURL())
 
     await interaction.channel.send({ embeds: [embedVerify], components: [btn] }).then((send) => {
-      client.on('interactionCreate', (interaction) => {
+      client.on('interactionCreate', async (interaction) => {
         if (interaction.isButton) {
           if (interaction.customId === "verify") {
-            const group = "1068720047687737443"
+            await interaction.member.roles.add(`${memberRole}`).then(async () => {
+              const autoRole = "1085554828278775908"
 
-            if (interaction.member.roles.highest.id === group) {
-              const embedAlreadyExists = new Discord.EmbedBuilder()
-                .setDescription(`Você já foi verificado com o cargo <@&${group}>`)
-                .setColor("Red")
-
-              interaction.reply({ embeds: [embedAlreadyExists], ephemeral: true }).then((reply) => {
-                setTimeout(() => { send.delete() }, 5000)
-                setTimeout(() => { reply.delete() }, 5000)
-              })
-
-              return
-            }
-
-            interaction.member.roles.add(`${group}`)
+              await interaction.member.roles.remove(`${autoRole}`)
+            })
 
             const embedSuccess = new Discord.EmbedBuilder()
-              .setDescription(`**Você foi verificado com o cargo <@&${group}>!**`)
+              .setDescription(`**Você foi verificado com o cargo <@&${memberRole}>!**`)
               .setColor("Green")
 
-            interaction.reply({ embeds: [embedSuccess], ephemeral: true })
+            await interaction.reply({ embeds: [embedSuccess], ephemeral: true })
 
             const embedSuccessLog = new Discord.EmbedBuilder()
               .setTitle(`Um novo usuário foi verificado\n\nEste usúario é o ${interaction.guild.memberCount}º membro a ser verificado no nosso servidor`)
@@ -64,7 +67,7 @@ module.exports = {
               })
               .setTimestamp()
 
-            interaction.guild.channels.cache.get('1085403253174452335').send({ embeds: [embedSuccessLog] })
+            await interaction.guild.channels.cache.get('1085403253174452335').send({ embeds: [embedSuccessLog] })
           }
         }
       });
