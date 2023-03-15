@@ -1,43 +1,41 @@
 const Discord = require("discord.js");
+
 const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
 module.exports = {
     name: "anuncio",
-    description: "avisos em modal", 
+    description: "Anúncios do servidor",
     type: Discord.ApplicationCommandType.ChatInput,
     ownerOnly: true,
-  
+
     run: async (client, interaction) => {
-
-        let canal = interaction.options.getChannel('canal')
-
         const modals = new ModalBuilder()
-        .setCustomId('t1')
-        .setTitle('Anuncio') 
+            .setCustomId('title')
+            .setTitle('Enviar anúncio')
 
-        const avisose = new TextInputBuilder()
-        .setCustomId('t1') 
-        .setLabel('Digite o nome do aviso!')
-        .setStyle(TextInputStyle.Short) 
-        .setMaxLength(30)
-        .setMinLength(3)
-        .setPlaceholder('Digite o titulo do aviso!')
-        .setRequired(true) 
+        const title = new TextInputBuilder()
+            .setCustomId('title')
+            .setLabel('Título do anúncio')
+            .setStyle(TextInputStyle.Short)
+            .setMaxLength(30)
+            .setMinLength(3)
+            .setPlaceholder('Digite o titulo do anúncio')
+            .setRequired(true)
 
 
-        const descricaose = new TextInputBuilder()
-        .setCustomId('t2')
-        .setLabel('Digite a descrição do aviso!')
-        .setStyle(TextInputStyle.Paragraph)
-        .setMaxLength(1000)
-        .setMinLength(10)
-        .setPlaceholder('Fale a descrição do aviso...')
-        .setRequired(true)
-    
-        const primeira = new ActionRowBuilder().addComponents(avisose)
-        const segunda = new ActionRowBuilder().addComponents(descricaose)
+        const description = new TextInputBuilder()
+            .setCustomId('description')
+            .setLabel('Descrição do anúncio')
+            .setStyle(TextInputStyle.Paragraph)
+            .setMaxLength(1000)
+            .setMinLength(10)
+            .setPlaceholder('Descreva a descrição do anúncio...')
+            .setRequired(true)
 
-        modals.addComponents(primeira, segunda)
+        const inputTitle = new ActionRowBuilder().addComponents(title)
+        const inputDescription = new ActionRowBuilder().addComponents(description)
+
+        modals.addComponents(inputTitle, inputDescription)
 
         await interaction.showModal(modals)
     }

@@ -2,18 +2,18 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: "banir",
-    description: "Bane um usuario do discord",
+    description: "Bane um usuário do discord",
     type: Discord.ApplicationCommandType.ChatInput,
     options: [
         {
             name: 'user',
-            description: 'Selecione um usuario',
+            description: 'Selecione um usuário',
             type: Discord.ApplicationCommandOptionType.User,
             require: true,
         },
         {
-            name: 'motivo',
-            description: 'Defina um motivo para banir o usuario',
+            name: 'reason',
+            description: 'Diga o motivo para banir o usuário',
             type: Discord.ApplicationCommandOptionType.String,
             required: false,
         },
@@ -21,27 +21,44 @@ module.exports = {
 
     run: async (client, interaction) => {
         if (!interaction.member.permissions.has(Discord.PermissionFlagsBits.BanMembers)) {
-            interaction.reply({ content: `<:xx:1035315658814132345> | Ola ${interaction.user}, Você não tem permissão para utilizar esse comando`, ephemeral: true })
+            interaction.reply({ content: `<:xx:1035315658814132345> | Olá ${interaction.user}, você não tem permissão para utilizar esse comando`, ephemeral: true })
         } else {
-            let user = interaction.options.getUser("user")
-            let user2 = interaction.guild.members.cache.get(user.id)
-            let motivo = interaction.options.getString("motivo")
-            if (!motivo) motivo = "Não definido"
-            if (!user) return interaction.reply({ content: 'Insira um id ou usuário válido', ephemeral: true })
+            const user = interaction.options.getUser("user")
+            const userCache = interaction.guild.members.cache.get(user.id)
+            const reason = interaction.options.getString("reason") || "Motivo não falado."
 
+            if (!user || !userCache) return interaction.reply({ content: 'Usuário não encontrado', ephemeral: true })
 
-            let ryan = new Discord.EmbedBuilder()
-                .setColor("#313236")
+            let embedSuccess = new Discord.EmbedBuilder()
+                .setColor("#9B111E")
                 .setDescription(`
-            **O usuario ${user} (\`${interaction.user.id}\`) foi banido pelo motivo \`${motivo}\` com sucesso!**`)
-                .setFooter({ text: `Comando requisitado por: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({ format: "png" }) });
+                    **O usuário ${user} (\`${interaction.user.id}\`) foi banido.**
 
-            user2.ban({ reason: [motivo] }).then(() => {
+                    **Motivo** 
+                    ${reason}
+                `)
+                .setFooter({
+                    text: `Banido por: ${interaction.user.tag}`,
+                    iconURL: interaction.user.displayAvatarURL({ format: "png" })
+                });
 
-                interaction.reply({ embeds: [ryan] })
-            })
+            let embedError = new Discord.EmbedBuilder()
+                .setColor("#9B111E")
+                .setDescription(`
+                    **Houve um erro ao processar a solicitação.**
 
+                    **Possíveis causas**
 
+                    Tentou banir alguém da staff.
+                    Usuário ou ID de usuário está inválido.
+                    Usuário não está no servidor.
+                    Usuário já foi banido.
+                    Outros.
+                `)
+
+            userCache.ban({ reason: [reason] })
+                .then(() => { interaction.reply({ embeds: [embedSuccess] }) })
+                .catch(() => { interaction.reply({ embeds: [embedError] }) })
         }
     }
 }

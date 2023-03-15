@@ -3,17 +3,17 @@ const Discord = require("discord.js")
 
 module.exports = {
     name: 'castigo',
-    description: 'Coloque algum usuário de castigo.',
+    description: 'Coloque um usuário de castigo.',
     type: Discord.ApplicationCommandType.ChatInput,
     options: [
         {
-            name: 'usuário',
+            name: 'user',
             type: Discord.ApplicationCommandOptionType.User,
             description: 'Selecione um usuário.',
             required: true,
         },
         {
-            name: 'tempo',
+            name: 'time',
             type: Discord.ApplicationCommandOptionType.String,
             description: 'Selecione um tempo para colocar o usuário de castigo.',
             required: true,
@@ -81,9 +81,9 @@ module.exports = {
             ]
         },
         {
-            name: 'motivo',
+            name: 'reason',
             type: Discord.ApplicationCommandOptionType.String,
-            description: 'Defina o motivo para colocar o usuario de castigo',
+            description: 'Diga o motivo para castigar o usuário',
             required: false,
         },
     ],
@@ -96,29 +96,44 @@ module.exports = {
             })
 
         } else {
+            const user = interaction.options.getUser("user")
+            const userCache = interaction.guild.members.cache.get(user.id);
+            const time = interaction.options.getString("time")
+            const reason = interaction.options.getString("reason") || "Motivo não falado."
+            const duration = ms(time);
 
-            let usuario = interaction.options.getUser("usuário")
-            let tempo = interaction.options.getString("tempo")
-            let motivo = interaction.options.getString("motivo") || `Nenhum`
-            let membro = interaction.guild.members.cache.get(usuario.id);         
-            let duracao = ms(tempo);
+            if (!user || !userCache) return interaction.reply({ content: 'Usuário não encontrado', ephemeral: true })
 
-            let ryan = new Discord.EmbedBuilder()
+            const embedSuccess = new Discord.EmbedBuilder()
                 .setColor("#313236")
                 .setDescription(`
-                **O usuario ${usuario} ( \`${usuario.id}\` ) foi castigo com sucesso pelo motivo \`${motivo}\` com a duração de \`${tempo}\`.**`)
-                .setFooter({ text: `Comando requisitado por: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({ format: "png" }) });
-            
-                let erro = new Discord.EmbedBuilder()
-                .setColor("#313236")
-                .setDescription(`
-                **Houve um erro ao tentar colocar esse usuario de castigo.**`)
+                    **O usuário ${user} (\`${interaction.user.id}\`) foi castigado.
+                    
+                    **Motivo** 
+                    ${reason} 
+                    
+                    **Duração do castigo**
+                    ${time}
+                `)
+                .setFooter({ text: `Castigado por: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({ format: "png" }) });
 
-            membro.timeout(duracao, motivo).then(() => {
-                interaction.reply({ embeds: [ryan] }).catch(e => {
-                    interaction.reply({ embeds: [erro] })
-                })
-            })
+            const embedError = new Discord.EmbedBuilder()
+                .setColor("#9B111E")
+                .setDescription(`
+                    **Houve um erro ao processar a solicitação.**
+
+                    **Possíveis causas**
+
+                    Tentou castigar alguém da staff.
+                    Usuário ou ID de usuário está inválido.
+                    Usuário não está no servidor.
+                    Usuário já foi castigado.
+                    Outros.
+                `)
+
+            userCache.timeout(duration, reason)
+                .then(() => { interaction.reply({ embeds: [embedSuccess] }) })
+                .catch(() => { interaction.reply({ embeds: [embedError] }) })
         }
     }
 }

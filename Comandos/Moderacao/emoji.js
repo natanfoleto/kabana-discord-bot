@@ -1,8 +1,8 @@
 const Discord = require("discord.js")
 
 module.exports = {
-    name: "emoji", 
-    description: "[❓] Veja informações de um emoji.", 
+    name: "emoji",
+    description: "[❓] Veja as informações de um emoji.",
     type: Discord.ApplicationCommandType.ChatInput,
     options: [
         {
@@ -14,22 +14,27 @@ module.exports = {
     ],
 
     run: async (client, interaction) => {
-        let emojiString = interaction.options.getString("emoji")
-        let emoji = client.emojis.cache.find(emoji => `<:${emoji.name}:${emoji.id}>` === emojiString) || client.emojis.cache.find(emoji => emoji.name === emojiString) || client.emojis.cache.get(emojiString);
+        const name = interaction.options.getString("emoji")
+
+        const emoji =
+            client.emojis.cache.find(emoji => `<:${emoji.name}:${emoji.id}>` === name) ||
+            client.emojis.cache.find(emoji => emoji.name === name) ||
+            client.emojis.cache.get(name);
 
         if (!emoji) {
             interaction.reply({
                 embeds: [
                     new Discord.EmbedBuilder()
-                    .setColor("Red")
-                    .setDescription(`**❌ - Não encontrei o emoji, siga o modelo abaixo**\n\`/emoji-info [nome]\``)
+                        .setColor("Red")
+                        .setDescription(`**❌ - Não encontrei o emoji, siga o modelo abaixo**\n\`/emoji [nome]\``)
                 ]
             });
         } else if (emoji) {
             try {
                 if (!emoji.animated) {
-                    let img = `https://cdn.discordapp.com/emojis/${emoji.id}.png?size=2048`;
-                    let botao = new Discord.ActionRowBuilder()
+                    const img = `https://cdn.discordapp.com/emojis/${emoji.id}.png?size=2048`;
+
+                    const btn = new Discord.ActionRowBuilder()
                         .addComponents(
                             new Discord.ButtonBuilder()
                                 .setStyle(Discord.ButtonStyle.Link)
@@ -38,7 +43,7 @@ module.exports = {
                                 .setURL(img)
                         );
 
-                    let embed = new Discord.EmbedBuilder()
+                    const embed = new Discord.EmbedBuilder()
                         .setColor("Green")
                         .setTitle("Informações do Emoji:")
                         .setThumbnail(`${img}`)
@@ -50,12 +55,11 @@ module.exports = {
                             Criado em: <t:${parseInt(emoji.createdTimestamp / 1000)}>
                     `)
 
-                    interaction.reply({ embeds: [embed], components: [botao] })
-                } 
+                    interaction.reply({ embeds: [embed], components: [btn] })
+                } else if (emoji.animated) {
+                    const img = `https://cdn.discordapp.com/emojis/${emoji.id}.gif?size=2048`;
 
-                else if (emoji.animated) {
-                    let img = `https://cdn.discordapp.com/emojis/${emoji.id}.gif?size=2048`;
-                    let botao = new Discord.ActionRowBuilder()
+                    const btn = new Discord.ActionRowBuilder()
                         .addComponents(
                             new Discord.ButtonBuilder()
                                 .setStyle(Discord.ButtonStyle.Link)
@@ -64,7 +68,7 @@ module.exports = {
                                 .setURL(`${img}`)
                         );
 
-                    let embed = new Discord.EmbedBuilder()
+                    const embed = new Discord.EmbedBuilder()
                         .setColor("Green")
                         .setTitle("Informações do Emoji:")
                         .setThumbnail(img)
@@ -75,10 +79,10 @@ module.exports = {
                             O emoji é: \`Gif\`
                             Criado em: <t:${parseInt(emoji.createdTimestamp / 1000)}>
                         `)
-                                
-                    await interaction.reply({ embeds: [embed], components: [botao] })
+
+                    await interaction.reply({ embeds: [embed], components: [btn] })
                 }
-            } catch (e) { 
+            } catch (e) {
                 interaction.reply(`Houve um erro ao tentar utilizar esse comando, ${interaction.user}`)
             }
         }

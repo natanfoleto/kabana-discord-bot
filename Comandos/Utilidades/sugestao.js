@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 module.exports = {
-    name: 'sugestão',
+    name: 'sugestao',
     description: 'Envie uma sugestão para nossa equipe',
     type: Discord.ApplicationCommandType.ChatInput,
 

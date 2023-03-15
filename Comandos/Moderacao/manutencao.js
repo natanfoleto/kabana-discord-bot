@@ -1,8 +1,8 @@
 const Discord = require("discord.js")
 
 module.exports = {
-    name: "manutencao", 
-    description: "Anuncie algo em um canal. ", 
+    name: "manutencao",
+    description: "Anuncie algo em um canal. ",
     type: Discord.ApplicationCommandType.ChatInput,
     options: [
         {
@@ -59,19 +59,19 @@ module.exports = {
             if (Discord.ChannelType.GuildText !== chat.type) return interaction.reply(`❌ Este canal não é um canal de texto para enviar uma mensagem.`)
 
             const embed = new Discord.EmbedBuilder()
-            .setTitle(`Um servidor entrou em manutenção!\n`)
-            .setDescription(`
+                .setTitle(`Um servidor entrou em manutenção!\n`)
+                .setDescription(`
                 ${title}
                 ${description}
                 
                 Servidor: ${server}
                 Tempo estimado: ${time}
             `)
-            .setColor(cor);
+                .setColor(cor);
 
-            chat.send({ embeds: [embed] }).then( () => { 
+            chat.send({ embeds: [embed] }).then(() => {
                 interaction.reply(`✅ Seu anúncio foi enviado em ${chat} com sucesso.`)
-            }).catch( (e) => {
+            }).catch((e) => {
                 interaction.reply(`❌ Algo deu errado.`)
             })
         }

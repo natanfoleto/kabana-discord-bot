@@ -1,29 +1,31 @@
+const { StringSelectMenuBuilder } = require('@discordjs/builders')
 const { SelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js')
 const fs = require('fs')
 
 module.exports = {
     name: 'ajuda',
-    description: 'Lista de comandos do BOT.',
+    description: 'Lista de comandos do servidor.',
     run: async (client, interaction) => {
 
         const optionsArr = []
 
         const commandsFolder = fs.readdirSync('./Comandos')
+
         for (const category of commandsFolder) {
             optionsArr.push({ label: `${category}`, description: `Veja os comandos de ${category}`, value: `${category}` })
         }
 
         const embed = new EmbedBuilder()
-        .setTitle('Central de Ajuda')
-                .setColor("#313236")
-        .setDescription('Clique em uma das opções abaixo para ver meus comandos.')
+            .setTitle('Central de Ajuda')
+            .setColor("#313236")
+            .setDescription('Clique em uma das opções abaixo para ver meus comandos.')
 
         const menu = new ActionRowBuilder()
-        .setComponents(
-            new SelectMenuBuilder()
-            .setCustomId('menu-help')
-            .addOptions(optionsArr)
-        )
+            .setComponents(
+                new StringSelectMenuBuilder()
+                    .setCustomId('menu-help')
+                    .addOptions(optionsArr)
+            )
 
         await interaction.reply({ embeds: [embed], components: [menu] }).then(async (msg) => {
             const filter = (m) => m.user.id == interaction.user.id
@@ -49,6 +51,5 @@ module.exports = {
                 interaction.editReply({ embeds: [embed] })
             })
         })
-
     }
 }
