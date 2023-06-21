@@ -1,22 +1,29 @@
 {
-  "name": "kabana-bots",
-  "version": "1.5.2",
-  "description": "Bot do Kabana",
-  "main": "index.js",
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "main": "./src/server.js",
+  "license": "MIT",
   "scripts": {
-    "start": "node index.js"
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "lint:fix": "eslint --fix . --ext ts,tsx"
   },
-  "author": "Kabana",
-  "license": "ISC",
+  "devDependencies": {
+    "@types/ms": "^0.7.31",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard-with-typescript": "^35.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "prettier": "^2.8.8",
+    "typescript": "*"
+  },
   "dependencies": {
-    "@discordjs/builders": "^1.4.0",
-    "discord-html-transcripts": "^3.1.2",
-    "discord.js": "^14.8.0",
-    "fs": "^0.0.1-security",
-    "minecraft-server-util": "^5.3.2",
-    "moment": "^2.29.4",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.1.4",
     "ms": "^2.1.3",
-    "quick.db": "^9.0.8"
-  },
-  "devDependencies": {}
+    "ts-node-dev": "^2.0.0"
+  }
 }
