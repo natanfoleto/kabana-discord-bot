@@ -6,6 +6,7 @@ declare namespace NodeJS {
     DEFAULT_ROLE: string;
     MEMBER_ROLE: string;
     VERIFIED_MEMBER_LOG_CHANNEL: string;
+    SUGGESTION_LOG_CHANNEL: string;
     TESTSERVER: string;
   }
 }

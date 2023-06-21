@@ -6,6 +6,7 @@ import { ExtendedInteraction } from "../interfaces/command";
 import { announcement } from "../interactions/modals/announcement";
 import { verify } from "../interactions/buttons/verify";
 import { maintenance } from "../interactions/modals/maintenance";
+import { suggestion } from "../interactions/modals/suggestion";
 
 export const event: Event = {
   name: "interactionCreate",
@@ -33,7 +34,10 @@ export const event: Event = {
           break;
 
         default:
-          interaction.reply({ content: "Serviço indisponível no momento." });
+          interaction.reply({
+            content: "Serviço indisponível no momento.",
+            ephemeral: true,
+          });
           break;
       }
     }
@@ -48,9 +52,15 @@ export const event: Event = {
         case "maintenance":
           maintenance(interaction);
           break;
+        case "suggestion":
+          suggestion(client, interaction);
+          break;
 
         default:
-          interaction.reply({ content: "Serviço indisponível no momento." });
+          interaction.reply({
+            content: "Serviço indisponível no momento.",
+            ephemeral: true,
+          });
           break;
       }
     }
