@@ -65,16 +65,16 @@ class Bot extends Client {
   }
 
   async registerModules() {
+    console.log();
+
     const slashCommands: ApplicationCommandDataResolvable[] = [];
 
     const commandPath = path.join(__dirname, "..", "interactions", "commands");
 
     readdirSync(commandPath).forEach((dir) => {
       const commands = readdirSync(`${commandPath}/${dir}`).filter((file) =>
-        file.endsWith(".ts")
+        file.endsWith(process.env.FILE_EXTENSION.trim())
       );
-
-      console.log();
 
       commands.forEach(async (file) => {
         const command: Command = await this.importFile(
@@ -123,7 +123,7 @@ class Bot extends Client {
     const eventPath = path.join(__dirname, "..", "events");
 
     readdirSync(eventPath).forEach(async (file) => {
-      if (!file.endsWith(".ts")) return;
+      if (!file.endsWith(process.env.FILE_EXTENSION.trim())) return;
 
       const { event } = await import(`${eventPath}/${file}`);
 

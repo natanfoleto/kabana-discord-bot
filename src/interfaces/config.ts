@@ -12,5 +12,6 @@ declare namespace NodeJS {
     TESTSERVER: string;
     DISABLED_COMMANDS: string;
     DISABLED_EVENTS: string;
+    FILE_EXTENSION: string;
   }
 }
