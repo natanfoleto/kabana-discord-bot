@@ -59,7 +59,7 @@ export const slash: Command = {
         ],
       })
       .then(async (msg) => {
-        const filter = (m: any) => m.user.id == interaction.user.id;
+        const filter = (m: any) => m.user.id === interaction.user.id;
 
         const collector = msg.createMessageComponentCollector({
           filter,
@@ -76,11 +76,12 @@ export const slash: Command = {
 
           for (const command of files) {
             if (command.endsWith(".ts")) {
+              const disableCommands = JSON.parse(
+                process.env.DISABLED_COMMANDS
+              ) as string[];
 
-              const disableCommands = JSON.parse(process.env.DISABLED_COMMANDS) as string[]
-        
-              const commandName = command.replace(/.ts/g, "")
-              
+              const commandName = command.replace(/.ts/g, "");
+
               if (!disableCommands.includes(commandName))
                 commands.push(commandName);
             }

@@ -10,9 +10,9 @@ import { readdirSync } from "fs";
 
 import dotenv from "dotenv";
 
-dotenv.config();
-
 import { Command, Event, RegisterCommandsOptions } from "../interfaces";
+
+dotenv.config();
 
 class Bot extends Client {
   public config = process.env;
@@ -81,8 +81,10 @@ class Bot extends Client {
           `${commandPath}/${dir}/${file}`
         );
 
-        const disableCommands = JSON.parse(process.env.DISABLED_COMMANDS) as string[]
-        
+        const disableCommands = JSON.parse(
+          process.env.DISABLED_COMMANDS
+        ) as string[];
+
         if (disableCommands.includes(command.name)) return;
 
         console.log(
@@ -125,8 +127,8 @@ class Bot extends Client {
 
       const { event } = await import(`${eventPath}/${file}`);
 
-      const disableEvents = JSON.parse(process.env.DISABLED_EVENTS) as string[]
-      
+      const disableEvents = JSON.parse(process.env.DISABLED_EVENTS) as string[];
+
       if (disableEvents.includes(event.name)) return;
 
       this.events.set(event.name, event);
