@@ -73,7 +73,9 @@ class Bot extends Client {
 
     readdirSync(commandPath).forEach((dir) => {
       const commands = readdirSync(`${commandPath}/${dir}`).filter((file) =>
-        file.endsWith(process.env.FILE_EXTENSION.trim())
+        file.endsWith(
+          process.env.FILE_EXTENSION ? process.env.FILE_EXTENSION.trim() : ".js"
+        )
       );
 
       commands.forEach(async (file) => {
@@ -123,7 +125,12 @@ class Bot extends Client {
     const eventPath = path.join(__dirname, "..", "events");
 
     readdirSync(eventPath).forEach(async (file) => {
-      if (!file.endsWith(process.env.FILE_EXTENSION.trim())) return;
+      if (
+        !file.endsWith(
+          process.env.FILE_EXTENSION ? process.env.FILE_EXTENSION.trim() : ".js"
+        )
+      )
+        return;
 
       const { event } = await import(`${eventPath}/${file}`);
 

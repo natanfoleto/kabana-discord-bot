@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "set FILE_EXTENSION=.ts && ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "start": "set FILE_EXTENSION=.js && node build/server.js",
+    "start": "node build/server.js",
     "build": "tsc"
   },
   "devDependencies": {
