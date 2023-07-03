@@ -81,6 +81,10 @@ class Bot extends Client {
           `${commandPath}/${dir}/${file}`
         );
 
+        const disableCommands = JSON.parse(process.env.DISABLED_COMMANDS) as string[]
+        
+        if (disableCommands.includes(command.name)) return;
+
         console.log(
           `${process.env.PREFIX}${command.name} registrado com sucesso`
         );
@@ -120,6 +124,10 @@ class Bot extends Client {
       if (!file.endsWith(".ts")) return;
 
       const { event } = await import(`${eventPath}/${file}`);
+
+      const disableEvents = JSON.parse(process.env.DISABLED_EVENTS) as string[]
+      
+      if (disableEvents.includes(event.name)) return;
 
       this.events.set(event.name, event);
       this.on(event.name, event.run.bind(null, this));

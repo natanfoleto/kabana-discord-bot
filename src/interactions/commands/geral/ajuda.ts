@@ -76,7 +76,13 @@ export const slash: Command = {
 
           for (const command of files) {
             if (command.endsWith(".ts")) {
-              commands.push(command.replace(/.ts/g, ""));
+
+              const disableCommands = JSON.parse(process.env.DISABLED_COMMANDS) as string[]
+        
+              const commandName = command.replace(/.ts/g, "")
+              
+              if (!disableCommands.includes(commandName))
+                commands.push(commandName);
             }
           }
 

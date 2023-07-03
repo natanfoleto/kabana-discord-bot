@@ -8,5 +8,7 @@ declare namespace NodeJS {
     VERIFIED_MEMBER_LOG_CHANNEL: string;
     SUGGESTION_LOG_CHANNEL: string;
     TESTSERVER: string;
+    DISABLED_COMMANDS: string;
+    DISABLED_EVENTS: string;
   }
 }
