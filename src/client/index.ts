@@ -54,13 +54,8 @@ class Bot extends Client {
   async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
     if (guildId) {
       this.guilds.cache.get(guildId)?.commands.set(commands);
-
-      console.log();
-      console.log("Comandos registrados em um servidor de específico!\n");
     } else {
       this.application?.commands.set(commands);
-
-      console.log("Comandos registrados globalmente");
     }
   }
 
@@ -89,9 +84,7 @@ class Bot extends Client {
 
         if (disableCommands.includes(command.name)) return;
 
-        console.log(
-          `${process.env.PREFIX}${command.name} registrado com sucesso`
-        );
+        console.log(`➤  ${command.name} registrado com sucesso 🟢`);
 
         if (!command.name) return;
 
@@ -109,6 +102,8 @@ class Bot extends Client {
   }
 
   public async init() {
+    console.log("➤  Inicializando Kabana BOT ⏳");
+
     this.login(this.config.TOKEN);
     this.registerModules();
 
@@ -120,7 +115,7 @@ class Bot extends Client {
     }, 1000 * Number(process.env.TIME_STATUS));
 
     if (!this.config.TESTSERVER)
-      console.log("O servidor de testes não foi configurado.");
+      console.log("➤  O servidor de testes não foi configurado 🔴");
 
     const eventPath = path.join(__dirname, "..", "events");
 
@@ -140,6 +135,8 @@ class Bot extends Client {
 
       this.events.set(event.name, event);
       this.on(event.name, event.run.bind(null, this));
+
+      console.log(`➤  ${event.name} registrado com sucesso 🟠`);
     });
   }
 }

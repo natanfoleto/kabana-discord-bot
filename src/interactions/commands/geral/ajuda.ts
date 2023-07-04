@@ -75,12 +75,23 @@ export const slash: Command = {
           const files = fs.readdirSync(`src/interactions/commands/${selected}`);
 
           for (const command of files) {
-            if (command.endsWith(".ts")) {
+            if (
+              command.endsWith(
+                process.env.FILE_EXTENSION
+                  ? process.env.FILE_EXTENSION.trim()
+                  : ".js"
+              )
+            ) {
               const disableCommands = JSON.parse(
                 process.env.DISABLED_COMMANDS
               ) as string[];
 
-              const commandName = command.replace(/.ts/g, "");
+              const commandName = command.replace(
+                process.env.FILE_EXTENSION
+                  ? process.env.FILE_EXTENSION.trim()
+                  : ".js",
+                ""
+              );
 
               if (!disableCommands.includes(commandName))
                 commands.push(commandName);

@@ -3,6 +3,6 @@ import { Event } from "../interfaces";
 export const event: Event = {
   name: "ready",
   run: (client) => {
-    console.log(`Client ${client.user?.username} was started successfully!`);
+    console.log(`➤  Kabana BOT on-line em ${client.user?.username} 🔥`);
   },
 };
