@@ -60,8 +60,6 @@ class Bot extends Client {
   }
 
   async registerModules() {
-    console.log();
-
     const slashCommands: ApplicationCommandDataResolvable[] = [];
 
     const commandPath = path.join(__dirname, "..", "interactions", "commands");
@@ -136,7 +134,7 @@ class Bot extends Client {
       this.events.set(event.name, event);
       this.on(event.name, event.run.bind(null, this));
 
-      console.log(`➤  ${event.name} registrado com sucesso 🟠`);
+      console.log(`➤  ${event.name} iniciado com sucesso 🟠`);
     });
   }
 }
