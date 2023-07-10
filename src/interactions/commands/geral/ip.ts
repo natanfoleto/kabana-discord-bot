@@ -4,7 +4,7 @@ import { Command } from "../../../interfaces";
 
 const embedDescription = `
 > IP de conexão: **kabana-mc.net**
-> Loja: [Clique aqui](https://kabana-mc.net/)
+> Loja: [Clique aqui](https://www.kabana-mc.net/)
 > Versão: **1.8x**
 `;
 

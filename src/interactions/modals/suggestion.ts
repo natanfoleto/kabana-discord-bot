@@ -57,7 +57,7 @@ export async function suggestion(
   }
 
   await interaction.reply({
-    content: `${interaction.user}, sua sugestão foi enviada com sucesso!`,
+    content: `Sua sugestão foi enviada com sucesso. Veja em ${channel}!`,
     ephemeral: true,
   });
 }
