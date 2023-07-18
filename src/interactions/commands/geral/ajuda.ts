@@ -13,7 +13,7 @@ export const slash: Command = {
   name: "ajuda",
   description: "Lista os comandos do servidor.",
   testOnly: false,
-  run: ({ client, interaction }) => {
+  run: async ({ client, interaction }) => {
     const options = [];
 
     const categories = fs.readdirSync("src/interactions/commands");
@@ -47,7 +47,7 @@ export const slash: Command = {
       .setCustomId("help")
       .addOptions(options);
 
-    interaction
+    await interaction
       .reply({
         embeds: [embed],
         ephemeral: true,
@@ -112,7 +112,7 @@ export const slash: Command = {
           ]);
 
           // Necessita do editReply, pois a cada categoria escolhida a resposta é editada
-          interaction.editReply({ embeds: [embed] });
+          await interaction.editReply({ embeds: [embed] });
         });
       });
   },

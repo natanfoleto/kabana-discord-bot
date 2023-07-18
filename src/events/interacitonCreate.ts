@@ -47,10 +47,6 @@ export const event: Event = {
           break;
 
         default:
-          interaction.reply({
-            content: "Serviço indisponível no momento.",
-            ephemeral: true,
-          });
           break;
       }
     }
@@ -70,10 +66,6 @@ export const event: Event = {
           break;
 
         default:
-          interaction.reply({
-            content: "Serviço indisponível no momento.",
-            ephemeral: true,
-          });
           break;
       }
     }
@@ -87,10 +79,6 @@ export const event: Event = {
           break;
 
         default:
-          interaction.reply({
-            content: "Serviço indisponível no momento.",
-            ephemeral: true,
-          });
           break;
       }
     }

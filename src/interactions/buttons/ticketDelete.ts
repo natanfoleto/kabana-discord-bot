@@ -4,7 +4,9 @@ import {
   TextChannel,
   EmbedBuilder,
 } from "discord.js";
+
 import { createTranscript } from "discord-html-transcripts";
+
 import Bot from "../../client";
 
 export async function ticketDelete(
