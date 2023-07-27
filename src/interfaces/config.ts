@@ -8,6 +8,7 @@ declare namespace NodeJS {
     DEFAULT_ROLE: string;
     MEMBER_ROLE: string;
     STAFF_ROLE: string;
+    SUPPORT_ROLE: string;
     TICKET_CATEGORY: string;
     VERIFIED_MEMBER_LOG_CHANNEL: string;
     TICKET_LOG_CHANNEL: string;

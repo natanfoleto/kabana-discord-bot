@@ -53,6 +53,16 @@ export async function ticket(
           ],
         },
         {
+          id: process.env.SUPPORT_ROLE,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.AttachFiles,
+            PermissionFlagsBits.EmbedLinks,
+            PermissionFlagsBits.AddReactions,
+          ],
+        },
+        {
           id: interaction.user.id,
           allow: [
             PermissionFlagsBits.ViewChannel,
