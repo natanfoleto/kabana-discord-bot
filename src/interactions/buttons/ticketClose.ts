@@ -56,6 +56,8 @@ export async function ticketClose(interaction: ButtonInteraction<CacheType>) {
         },
       ],
     });
+
+    return;
   }
 
   await interaction.reply({

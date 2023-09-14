@@ -7,7 +7,7 @@ export const slash: Command = {
   description: "Abra um ticket para dúvidas ou resolução de problemas.",
   testOnly: false,
   run: async ({ client, interaction }) => {
-    const channel = client.channels.cache.get(process.env.TICKET_LOG_CHANNEL);
+    const channel = client.channels.cache.get(process.env.TICKET_PIN_CHANNEL);
 
     if (channel?.isTextBased()) {
       const embed = new EmbedBuilder()

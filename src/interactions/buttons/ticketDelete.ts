@@ -32,7 +32,7 @@ export async function ticketDelete(
     .setTimestamp();
 
   const channelLog = client.channels.cache.find(
-    (ch) => ch.id === process.env.STAFF_LOG_CHANNEL
+    (ch) => ch.id === process.env.TICKET_LOG_CHANNEL
   );
 
   if (channelLog?.isTextBased()) {
